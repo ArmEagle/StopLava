@@ -1,0 +1,5 @@
+name: StopLava
+version: 0.1
+main: nl.armeagle.minecraft.StopLava.StopLava
+author: ArmEagle
+description: Tool
