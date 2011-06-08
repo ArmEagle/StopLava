@@ -52,8 +52,9 @@ public class StopLava extends JavaPlugin{
 		if (this.permissionHandler == null) {
 			if (permissionsPlugin != null) {
 				this.permissionHandler = ((Permissions) permissionsPlugin).getHandler();
+				StopLava.log("Permission system detected, being Op makes no difference.");
 			} else {
-				StopLava.log("Permission system not detected, defaulting to OP");
+				StopLava.log("Permission system not detected, defaulting to Op.");
 			}
 		}
 	}
