@@ -60,8 +60,10 @@ public class StopLava extends JavaPlugin{
 	
 	public boolean hasPermission(Player player, String path) {
 		if ( this.permissionHandler != null ) {
+			StopLava.log("has permission: "+ this.permissionHandler.has(player, path));
 			return this.permissionHandler.has(player, path);
 		} else {
+			StopLava.log("is op: "+ player.isOp());
 			return player.isOp();
 		}
 	}

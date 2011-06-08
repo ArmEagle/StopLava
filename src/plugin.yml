@@ -1,5 +1,5 @@
 name: StopLava
-version: 0.1
+version: 0.2
 main: nl.armeagle.minecraft.StopLava.StopLava
 author: ArmEagle
-description: Tool
+description: Prevents players from placing lava blocks or emptying/filling buckets.

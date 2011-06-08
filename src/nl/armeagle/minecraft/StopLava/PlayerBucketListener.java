@@ -18,7 +18,8 @@ public class PlayerBucketListener extends PlayerListener {
 		if ( !this.plugin.isEnabled() ) {
 			return;
 		}
-		if ( !this.plugin.hasPermission(event.getPlayer(), StopLava.CAN_USE_LAVA) ) {
+		// allow for players with permissions or op
+		if ( this.plugin.hasPermission(event.getPlayer(), StopLava.CAN_USE_LAVA) ) {
 			return;
 		}
 		
@@ -43,7 +44,8 @@ public class PlayerBucketListener extends PlayerListener {
 		if ( !this.plugin.isEnabled() ) {
 			return;
 		}
-		if ( !this.plugin.hasPermission(event.getPlayer(), StopLava.CAN_USE_LAVA) ) {
+		// allow for players with permissions or op
+		if ( this.plugin.hasPermission(event.getPlayer(), StopLava.CAN_USE_LAVA) ) {
 			return;
 		}
 		
