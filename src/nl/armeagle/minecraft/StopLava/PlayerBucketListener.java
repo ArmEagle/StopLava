@@ -19,14 +19,14 @@ public class PlayerBucketListener extends PlayerListener {
 			return;
 		}
 		// allow for players with permissions or op
-		if ( this.plugin.hasPermission(event.getPlayer(), StopLava.CAN_USE_LAVA) ) {
+		final Player player = event.getPlayer();
+		if ( this.plugin.hasPermission(player, StopLava.CAN_USE_LAVA) ) {
 			return;
 		}
 		
 		if ( event.getBucket() == Material.LAVA_BUCKET ) {
-			final Player player = event.getPlayer();
-			StopLava.log("Prevented "+ player.getDisplayName() + 
-					" from emptying lava bucket at "+ StopLava.locToStr(event.getBlockClicked().getLocation()));
+			StopLava.log("Prevented "+ player.getName() + 
+					" from emptying lava bucket at "+ event.getBlockClicked().getWorld().getName() +":"+ StopLava.locToStr(event.getBlockClicked().getLocation()));
 			event.setCancelled(true);
 			
 			// make it so the client is updated too
@@ -44,17 +44,18 @@ public class PlayerBucketListener extends PlayerListener {
 		if ( !this.plugin.isEnabled() ) {
 			return;
 		}
+
+		final Player player = event.getPlayer();
 		// allow for players with permissions or op
-		if ( this.plugin.hasPermission(event.getPlayer(), StopLava.CAN_USE_LAVA) ) {
+		if ( this.plugin.hasPermission(player, StopLava.CAN_USE_LAVA) ) {
 			return;
 		}
 		
 		if ( event.getBlockClicked().getType() == Material.STATIONARY_LAVA ||
 				event.getBlockClicked().getType() == Material.LAVA ) {
-			final Player player = event.getPlayer();
 			
-			StopLava.log("Prevented "+ player.getDisplayName() + 
-					" from filling bucket with lava at "+ StopLava.locToStr(event.getBlockClicked().getLocation()));
+			StopLava.log("Prevented "+ player.getName() + 
+					" from filling bucket with lava at "+ event.getBlockClicked().getWorld().getName() +":"+ StopLava.locToStr(event.getBlockClicked().getLocation()));
 			event.setCancelled(true);
 
 			
