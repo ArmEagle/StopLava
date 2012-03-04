@@ -1,16 +1,18 @@
 package nl.armeagle.minecraft.StopLava;
 
 import org.bukkit.Material;
-import org.bukkit.event.block.BlockListener;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 
-public class BlockCanBuildListener extends BlockListener {
+public class BlockCanBuildListener implements Listener {
 	private StopLava plugin;
 	
 	public BlockCanBuildListener(StopLava plugin) {
 		this.plugin = plugin;
 	}
 	
+	@EventHandler
 	public void onBlockPlace(BlockPlaceEvent event) {
 		if ( !this.plugin.isEnabled() ) {
 			return;

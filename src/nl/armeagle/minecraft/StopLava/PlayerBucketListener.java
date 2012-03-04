@@ -2,18 +2,20 @@ package nl.armeagle.minecraft.StopLava;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerBucketFillEvent;
-import org.bukkit.event.player.PlayerListener;
 import org.bukkit.inventory.ItemStack;
 
-public class PlayerBucketListener extends PlayerListener {
+public class PlayerBucketListener implements Listener {
 	private StopLava plugin;
 	
 	public PlayerBucketListener(StopLava plugin) {
 		this.plugin = plugin;
 	}
 	
+	@EventHandler
 	public void onPlayerBucketEmpty(PlayerBucketEmptyEvent event) {
 		if ( !this.plugin.isEnabled() ) {
 			return;
@@ -29,17 +31,27 @@ public class PlayerBucketListener extends PlayerListener {
 					" from emptying lava bucket at "+ event.getBlockClicked().getWorld().getName() +":"+ StopLava.locToStr(event.getBlockClicked().getLocation()));
 			event.setCancelled(true);
 			
+			// give back either an empty or filled bucket based on get permission
 			// make it so the client is updated too
 			player.setItemInHand(null); // need to set to null first or else apparently the client doesn't notice the change
 			// then set the bucket back to normal as before
-			this.plugin.getServer().getScheduler().scheduleSyncDelayedTask(this.plugin,
-				new Runnable() {public void run() {
-					player.setItemInHand(new ItemStack(Material.BUCKET, 1));
-				}}
-				, 1);
+			if  (this.plugin.hasPermission(player, StopLava.CAN_GET_LAVA) ) {
+				this.plugin.getServer().getScheduler().scheduleSyncDelayedTask(this.plugin,
+					new Runnable() {public void run() {
+						player.setItemInHand(new ItemStack(Material.LAVA_BUCKET, 1));
+					}}
+					, 1);
+			} else {
+				this.plugin.getServer().getScheduler().scheduleSyncDelayedTask(this.plugin,
+						new Runnable() {public void run() {
+							player.setItemInHand(new ItemStack(Material.BUCKET, 1));
+						}}
+						, 1);
+			}
 		}
 	}
 	
+	@EventHandler
 	public void onPlayerBucketFill(PlayerBucketFillEvent event) {
 		if ( !this.plugin.isEnabled() ) {
 			return;
@@ -47,7 +59,7 @@ public class PlayerBucketListener extends PlayerListener {
 
 		final Player player = event.getPlayer();
 		// allow for players with permissions or op
-		if ( this.plugin.hasPermission(player, StopLava.CAN_USE_LAVA) ) {
+		if ( this.plugin.hasPermission(player, StopLava.CAN_GET_LAVA) ) {
 			return;
 		}
 		

@@ -4,8 +4,6 @@ import java.util.logging.Logger;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event.Priority;
-import org.bukkit.event.Event.Type;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
@@ -14,6 +12,7 @@ import com.nijiko.permissions.PermissionHandler;
 import com.nijikokun.bukkit.Permissions.Permissions;
 
 public class StopLava extends JavaPlugin{
+	public final static String CAN_GET_LAVA = "StopLava.canGetLava";
 	public final static String CAN_USE_LAVA = "StopLava.canUseLava";
 	
 	private static final Logger log = Logger.getLogger("Minecraft");
@@ -36,9 +35,8 @@ public class StopLava extends JavaPlugin{
 			PluginManager pm = this.getServer().getPluginManager();
 			this.blockListener = new BlockCanBuildListener(this);
 			this.playerListener = new PlayerBucketListener(this);
-			pm.registerEvent(Type.PLAYER_BUCKET_EMPTY, this.playerListener, Priority.Normal, this);
-			pm.registerEvent(Type.PLAYER_BUCKET_FILL, this.playerListener, Priority.Normal, this);
-			pm.registerEvent(Type.BLOCK_PLACE, this.blockListener, Priority.Normal, this);
+			pm.registerEvents(this.playerListener, this);
+			pm.registerEvents(this.blockListener, this);
 			
 			this.setupPermissions();
 		}
@@ -52,9 +50,9 @@ public class StopLava extends JavaPlugin{
 		if (this.permissionHandler == null) {
 			if (permissionsPlugin != null) {
 				this.permissionHandler = ((Permissions) permissionsPlugin).getHandler();
-				StopLava.log("Permission system detected, being Op makes no difference.");
+				StopLava.log("Permissions plugin detected.");
 			} else {
-				StopLava.log("Permission system not detected, defaulting to Op.");
+				StopLava.log("Permissions plugin not detected, defaulting to Bukkit's built-in system.");
 			}
 		}
 	}
@@ -63,7 +61,7 @@ public class StopLava extends JavaPlugin{
 		if ( this.permissionHandler != null ) {
 			return this.permissionHandler.has(player, path);
 		} else {
-			return player.isOp();
+			return player.hasPermission(path);
 		}
 	}
 	
