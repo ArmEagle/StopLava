@@ -22,12 +22,13 @@ public class BlockCanBuildListener implements Listener {
 			return;
 		}
 		
-		if ( event.getItemInHand().getType() == Material.LAVA ||
-			 event.getItemInHand().getType() == Material.STATIONARY_LAVA ||
-			 event.getItemInHand().getType() == Material.LAVA_BUCKET) {
-			StopLava.log("Prevented "+ event.getPlayer().getDisplayName() + 
+		if ( event.getBlockPlaced().getType() == Material.LAVA ||
+				event.getBlockPlaced().getType() == Material.STATIONARY_LAVA ) {
+			StopLava.log("Prevented "+ event.getPlayer().getName() + 
 					" from placing lava at "+ StopLava.locToStr(event.getBlock().getLocation()));
+			
 			event.setCancelled(true);
+			event.getPlayer().updateInventory();			
 		}
 	}
 	

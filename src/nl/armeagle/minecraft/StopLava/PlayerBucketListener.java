@@ -29,25 +29,9 @@ public class PlayerBucketListener implements Listener {
 		if ( event.getBucket() == Material.LAVA_BUCKET ) {
 			StopLava.log("Prevented "+ player.getName() + 
 					" from emptying lava bucket at "+ event.getBlockClicked().getWorld().getName() +":"+ StopLava.locToStr(event.getBlockClicked().getLocation()));
-			event.setCancelled(true);
 			
-			// give back either an empty or filled bucket based on get permission
-			// make it so the client is updated too
-			player.setItemInHand(null); // need to set to null first or else apparently the client doesn't notice the change
-			// then set the bucket back to normal as before
-			if  (this.plugin.hasPermission(player, StopLava.CAN_GET_LAVA) ) {
-				this.plugin.getServer().getScheduler().scheduleSyncDelayedTask(this.plugin,
-					new Runnable() {public void run() {
-						player.setItemInHand(new ItemStack(Material.LAVA_BUCKET, 1));
-					}}
-					, 1);
-			} else {
-				this.plugin.getServer().getScheduler().scheduleSyncDelayedTask(this.plugin,
-						new Runnable() {public void run() {
-							player.setItemInHand(new ItemStack(Material.BUCKET, 1));
-						}}
-						, 1);
-			}
+			event.setCancelled(true);
+			player.updateInventory();
 		}
 	}
 	
@@ -69,21 +53,7 @@ public class PlayerBucketListener implements Listener {
 			StopLava.log("Prevented "+ player.getName() + 
 					" from filling bucket with lava at "+ event.getBlockClicked().getWorld().getName() +":"+ StopLava.locToStr(event.getBlockClicked().getLocation()));
 			event.setCancelled(true);
-
-			
-			// make it so the client is updated too
-			player.setItemInHand(null); // need to set to null first or else apparently the client doesn't notice the change
-			// then set the bucket back to normal as before
-			this.plugin.getServer().getScheduler().scheduleSyncDelayedTask(this.plugin,
-				new Runnable() {public void run() {
-					player.setItemInHand(new ItemStack(Material.BUCKET, 1));
-				}}
-				, 1);
-			
-			player.sendBlockChange(event.getBlockClicked().getLocation(),
-					event.getBlockClicked().getType(),
-					event.getBlockClicked().getData());
-			
+			player.updateInventory();
 		}
 	}
 }
