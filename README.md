@@ -10,12 +10,10 @@ is not notified of the event actually being cancelled. So the player will see
 the bucket being filled, while it isn't really. As will be clear when the
 player (dis)connects and gets the update.
 
-For now this plugin is forcing a clumsy update to the client. Perhaps there
-are better ways to do this, but that seems to require use of the CraftBukkit
-API besides the Bukkit API.
+This is now 'fixed' by calling Player.updateInventory(). But that is a temporary
+workaround by the developers of Bukkit.
 
-I submitted [a feature request](http://leaky.bukkit.org/issues/896) to have
-CraftBukkit send the client these updates automatically. 
+Bug report created for this: https://bukkit.atlassian.net/browse/BUKKIT-1339 
 
 
 Source
