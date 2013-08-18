@@ -1,8 +1,9 @@
 name: StopLava
-version: 1.3.1
+version: 1.3.2
 main: nl.armeagle.minecraft.StopLava.StopLava
 author: ArmEagle
 description: Prevents players from placing lava blocks or emptying/filling buckets.
+depends: [PermissionsEx]
 permissions:
     StopLava.canUseLava:
         description: Permission to place lava
